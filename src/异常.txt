@@ -1,0 +1,25 @@
+==============没有设置回收时候的报错===============
+Exception in thread "main" Exception in thread "pool-1-thread-3" pool-1-thread-4开始写入：6531
+pool-1-thread-6开始写入：6525Exception in thread "pool-1-thread-5" java.lang.OutOfMemoryError: GC overhead limit exceeded
+
+	at java.util.concurrent.LinkedBlockingQueue.offer(LinkedBlockingQueue.java:415)
+
+
+
+
+Exception in thread "main" Exception in thread "Keep-Alive-Timer"
+
+
+java.net.SocketException: Unexpected end of file from server
+	at sun.net.www.http.HttpClient.parseHTTPHeader(HttpClient.java:778)
+	at sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:633)
+	at sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:661)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1324)
+	at getOriginalURL.workurl(getOriginalURL.java:115)
+	at getOriginalURL$getURLHandler.run(getOriginalURL.java:85)
+
+==============设置回收、线程休眠时候的报错===============
+Exception in thread "main" Exception in thread "pool-1-thread-2" 文件创建完毕java.lang.OutOfMemoryError: Java heap space
+
+	at sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:633)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1324)
