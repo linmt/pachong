@@ -1,6 +1,25 @@
-多线程的停止
+未完成的功能：
+1.多线程的停止
+2.根据lowid拼接URL，访问URL，获取页码，遍历该法律的所有页面，截取正文部分，拼接成新HTML
+3.断点续传功能
+  创建数据库配置文件，测试连接数据库
+  数据库创建表flfg_pages，创建page列，存1-6570，创建状态列，记录是否已经生成HTML
+  读取数据库，找出未生成HTML的page，根据page读取页面，生成HTML，该page状态标记成已完成
+4.获取lowID、总页数
+  数据库创建表flfg_info，字段lowID、title、page_count、page_status、load_status
+  读取数据库，找出未生成HTML的lowID，根据lowID读取页面，获取page_count插入数据库，page_status标记成已完成
+5.获取所有法律的HTML
+  读取表flfg_info，根据lowID、page_count读取页面，每个lowID创建一个文件夹，将每个lowID的HTML写入该文件夹，load_status标记成已完成
 
-根据lowid拼接URL，访问URL，获取页码，遍历该法律的所有页面，截取正文部分，拼接成新HTML
 
-如何解决内存占用高：
-1.目前测试时连接占用的内存过高，考虑释放连接
+19-01-08
+仿照网上案例编写爬虫程序
+
+19-01-09
+使用多线程爬取
+
+19-01-10
+解决多线程内存溢出
+
+19-01-11
+断点续传功能

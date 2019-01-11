@@ -1,7 +1,4 @@
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Created by 张洲徽 on 2019/1/8.
@@ -29,16 +26,20 @@ public class Test {
 //            System.out.println("："+ss.toString().length());
 //        }
 
-        File file = new File("C:\\Users\\热带雨林\\Desktop\\test"+ File.separator+"a.html");
-        File parent = file.getParentFile();
-        if(!parent.exists()){
-            parent.mkdirs();
-        }
-        if(!file.exists()){
-            file.createNewFile();
-            System.out.println("文件创建完毕");
-        }else {
-            System.out.println("文件已经存在");
-        }
+        //测试创建文件夹位置
+//        File file = new File("C:\\Users\\热带雨林\\Desktop\\test"+ File.separator+"a.html");
+//        File parent = file.getParentFile();
+//        if(!parent.exists()){
+//            parent.mkdirs();
+//        }
+//        if(!file.exists()){
+//            file.createNewFile();
+//            System.out.println("文件创建完毕");
+//        }else {
+//            System.out.println("文件已经存在");
+//        }
+
+        //测试src下创建数据库配置文件
+
     }
 }

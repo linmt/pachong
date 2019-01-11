@@ -8,6 +8,7 @@ import java.util.concurrent.*;
  * 直接一个网页生成一个文件
  * 依然会内存溢出
  * 设置了不使用缓存，setChunkedStreamingMode，占用内存反而更多
+ * 设置了多线程的缓冲队列值，减少了内存占用
  */
 public class getOriginalURL {
     public static int page = 6570;
