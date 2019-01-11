@@ -1,10 +1,13 @@
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 张洲徽 on 2019/1/8.
  */
 public class Test {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
 //        String s="<h3 style=\"width: 100%;\"><a href=\"";
 //        System.out.println(s.length());
 
@@ -40,6 +43,46 @@ public class Test {
 //        }
 
         //测试src下创建数据库配置文件
+//        try{
+//            Connection conn=DBUtil2.getConnection();
+//            conn.setAutoCommit(false);
+//            String sql ="INSERT INTO flfg_pages VALUES(?,NULL )";
+//            PreparedStatement ps= conn.prepareStatement(sql);
+//            for(int i=1;i<=6570;i++){
+//                ps.setInt(1, i);
+//                ps.addBatch();
+//                if(i%1000==0){
+//                    ps.executeBatch();
+//                    System.out.println("插入"+i);
+//                }
+//            }
+//            ps.executeBatch();
+//            System.out.println("插入剩余记录");
+//            conn.commit();
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }finally{
+//            DBUtil2.closeConnection();
+//        }
+
+        //测试List的取出
+//        List<Integer> list=new ArrayList<Integer>();
+//        for(int i=0;i<10;i++){
+//            list.add(i);
+//        }
+//        Integer num=null;
+//        while (true){
+//            try{
+//                num=list.remove(0);
+//                System.out.println(num);
+//            }catch (IndexOutOfBoundsException e1){
+//                System.out.println("遍历结束");
+//                break;
+//            }catch (Exception e2){
+//                e2.printStackTrace();
+//            }
+//        }
+
 
     }
 }

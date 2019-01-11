@@ -80,7 +80,7 @@ public class getOriginalURL {
 
     public void workurl(String strurl,int page) throws Exception {
         //创建文件夹和文件，用于保存链接
-        File file = new File("C:\\Users\\热带雨林\\Desktop\\page"+ File.separator+page+".html");
+        File file = new File("C:\\Users\\张洲徽\\Desktop\\page"+ File.separator+page+".html");
         File parent = file.getParentFile();
         if(!parent.exists()){
             parent.mkdirs();

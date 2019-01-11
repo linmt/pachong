@@ -141,7 +141,7 @@ public class getOriginalURL2 {
 
             //匹配
             Matcher m = p.matcher(content);
-            List<StringBuffer> lists=new ArrayList<>();
+            List<StringBuffer> lists=new ArrayList<StringBuffer>();
             // 通过Matcher类的group方法和find方法来进行查找和匹配
             while (m.find()) {
                 StringBuffer value = new StringBuffer(m.group());

@@ -43,7 +43,7 @@ public class getURL {
         //匹配
         Matcher m = p.matcher(content);
         // System.out.println(p.matcher("sf@sina").matches());
-        List<String> lists=new ArrayList<>();
+        List<String> lists=new ArrayList<String>();
         // 通过Matcher类的group方法和find方法来进行查找和匹配
         while (m.find()) {
             String value = m.group();
