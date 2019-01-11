@@ -1,0 +1,15 @@
+select * from FLFG_PAGES t
+where t.page>2167
+order by t.page;
+--delete from FLFG_PAGES;
+--commit;
+
+SELECT page FROM FLFG_PAGES where status is null;
+
+--UPDATE FLFG_PAGES set STATUS=null where PAGE=1;
+--commit;
+
+SELECT * FROM FLFG_PAGES
+WHERE STATUS!='已完成' or STATUS is null
+ORDER BY PAGE
+

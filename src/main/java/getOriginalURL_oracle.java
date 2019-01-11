@@ -13,9 +13,9 @@ import java.util.concurrent.TimeUnit;
  * 依然会内存溢出
  * 设置了不使用缓存，setChunkedStreamingMode，占用内存反而更多
  * 设置了多线程的缓冲队列值，减少了内存占用
+ * 增加断点续传功能
  */
 public class getOriginalURL_oracle {
-    public static int page = 6570;
     static ThreadPoolExecutor threadPool;
     private static boolean flag=true;
     private static boolean writeFlag=false;
@@ -23,9 +23,9 @@ public class getOriginalURL_oracle {
 
     public getOriginalURL_oracle() throws Exception {
         threadPool = new ThreadPoolExecutor(
-                0, 40,
+                0, 100,
                 0L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<Runnable>(10),
+                new LinkedBlockingQueue<Runnable>(100),
                 new ThreadPoolExecutor.CallerRunsPolicy()
         );
 
@@ -97,62 +97,76 @@ public class getOriginalURL_oracle {
 
     public void workurl(String strurl,Integer page) throws Exception {
         HandleData.updateStatus(page,"下载中");
-        //创建文件夹和文件，用于保存链接
         File file = new File("C:\\Users\\张洲徽\\Desktop\\page"+ File.separator+page+".html");
         File parent = file.getParentFile();
-        if(!parent.exists()){
-            parent.mkdirs();
-        }
-        if(!file.exists()){
-            file.createNewFile();
-            System.out.println("文件创建完毕");
-        }else {
-            System.out.println("文件已经存在");
-        }
 
-        //创建输出流
-        FileOutputStream fos= new FileOutputStream(file);
-        OutputStreamWriter osw= new OutputStreamWriter(fos, "UTF-8");
-        PrintWriter pw= new PrintWriter(osw);
+        FileOutputStream fos=null;
+        OutputStreamWriter osw=null;
+        PrintWriter pw=null;
 
-        URL url=new URL(strurl);
+        URL url=null;
         HttpURLConnection conn=null;
-        //通过url建立与网页的连接
-        for(int j=0;j<3;j++){
-            try{
-                conn=(HttpURLConnection) url.openConnection();
-            }catch(Exception e){
-                continue;
-            }
-        }
-        if(conn==null){
-            throw new Exception("获取连接失败");
-        }
 
-        //通过链接取得网页返回的数据
-        InputStream is=conn.getInputStream();
-        BufferedReader br=new BufferedReader(new InputStreamReader(is,"UTF-8"));
+        InputStream is=null;
+        BufferedReader br=null;
 
         Thread t = Thread.currentThread();
         String name = t.getName();
 
-        //按行读取并打印
-        String line = null;
-        System.out.println(name+"开始写入："+page);
-        while((line=br.readLine())!=null){
-            //System.out.println(line);
-            pw.println(line);
-            pw.flush();
-        }
-        System.out.println(name+"写入结束："+page);
+        try {
+            //创建文件夹和文件，用于保存链接
+            if(!parent.exists()){
+                parent.mkdirs();
+            }
+            if(!file.exists()){
+                file.createNewFile();
+                System.out.println("文件创建完毕");
+            }else {
+                System.out.println("文件已经存在");
+            }
 
+            //创建输出流
+            fos= new FileOutputStream(file);
+            osw= new OutputStreamWriter(fos, "UTF-8");
+            pw= new PrintWriter(osw);
+
+            url=new URL(strurl);
+            //通过url建立与网页的连接
+            for(int j=0;j<3;j++){
+                try{
+                    conn=(HttpURLConnection) url.openConnection();
+                }catch(Exception e){
+                    continue;
+                }
+            }
+            if(conn==null){
+                throw new Exception("获取连接失败");
+            }
+
+            //通过链接取得网页返回的数据
+            is=conn.getInputStream();
+            br=new BufferedReader(new InputStreamReader(is,"UTF-8"));
+
+            //按行读取并打印
+            String line = null;
+            //System.out.println(name+"开始写入："+page);
+            while((line=br.readLine())!=null){
+                //System.out.println(line);
+                pw.println(line);
+                pw.flush();
+            }
+            //System.out.println(name+"写入结束："+page);
+        }catch (Exception e){
+            HandleData.updateStatus(page,"下载失败");
+            e.printStackTrace();
+        }finally {
+            conn.disconnect();
+            br.close();
+            pw.close();
+            System.gc();
+        }
         HandleData.updateStatus(page,"已完成");
 
-        conn.disconnect();
-        br.close();
-        pw.close();
-        //写在整个方法最后，才能回收更多的内存
-        System.gc();
         writeFlag=false;
     }
 }
