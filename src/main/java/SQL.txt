@@ -1,3 +1,52 @@
+create table FLFG_PAGES
+(
+  page                    NUMBER,
+  status                  VARCHAR2(10),
+  get_id_and_title_status VARCHAR2(10)
+)
+tablespace USERS
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 8K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table
+comment on table FLFG_PAGES
+  is '记录遍历6570个页面的状态';
+
+
+
+
+create table FLFG_INFO
+(
+  lowid       NUMBER,
+  title       VARCHAR2(1000),
+  page_count  NUMBER,
+  load_status VARCHAR2(10),
+  page        NUMBER,
+  page_status VARCHAR2(10)
+)
+tablespace USERS
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table
+comment on table FLFG_INFO
+  is '记录HTML的lowID和title和总页数';
+
+
+
 select * from FLFG_PAGES t
 where t.page>2167
 order by t.page;
