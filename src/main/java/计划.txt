@@ -13,9 +13,9 @@
   多线程：如果一个page被取出，直到完成为止，集合中都不存在该page，两个线程不可能读写到同一个page
 
 4.获取lowID、总页数
-  遍历flfg_pages，找出未解析出lowID的page
-  数据库创建表 flfg_info，字段page、lowID、title、page_count、load_status
-  读取flfg_pages的page，获取lowID和title，插入flfg_info，get_id_and_title_status标记为“完成”
+  遍历flfg_pages，找出未解析出lowID、page、publishDepartment、publishTime
+  数据库创建表 flfg_info，字段page、lowID、title、load_status、publishDepartment、publishTime
+  读取flfg_pages的page，获取lowID、page、publishDepartment、publishTime，插入flfg_info，表 flfg_pages 的get_id_and_title_status标记为“完成”
   根据lowID读取页面，获取page_count插入数据库，page_status 标记成已完成
 
 5.获取所有法律的HTML
@@ -33,5 +33,9 @@
 
 19-01-11
 断点续传功能
+
+19-01-13
+测试了多线程的停止
+解析lowID
 
 

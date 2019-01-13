@@ -24,12 +24,13 @@ comment on table FLFG_PAGES
 
 create table FLFG_INFO
 (
-  lowid       NUMBER,
-  title       VARCHAR2(1000),
-  page_count  NUMBER,
-  load_status VARCHAR2(10),
-  page        NUMBER,
-  page_status VARCHAR2(10)
+  page              NUMBER,
+  lowid             NUMBER,
+  title             VARCHAR2(1000),
+  publishdepartment VARCHAR2(1000),
+  publishtime       VARCHAR2(20),
+  page_count        NUMBER,
+  load_status       VARCHAR2(20)
 )
 tablespace USERS
   pctfree 10
@@ -41,7 +42,6 @@ tablespace USERS
     minextents 1
     maxextents unlimited
   );
--- Add comments to the table
 comment on table FLFG_INFO
   is '记录HTML的lowID和title和总页数';
 

@@ -70,4 +70,60 @@ public class HandleData {
             DBUtil2.closeConnection();
         }
     }
+
+    //更改文件状态
+    public static void updateGetLowidStatus(Integer page,String status){
+        try{
+            Connection conn= DBUtil2.getConnection();
+            String sql = "UPDATE FLFG_PAGES set GET_ID_AND_TITLE_STATUS=? where PAGE=?";
+            PreparedStatement ps=conn.prepareStatement(sql);
+            ps.setString(1, status);
+            ps.setInt(2,page);
+            ps.executeUpdate();
+            System.out.println("插入："+page+"页状态为："+status);
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            DBUtil2.closeConnection();
+        }
+    }
+
+    //插入读取的lowID等信息
+    public static void insertLowid(
+            Integer page,Integer lowid,String title,String publishDepartment,String publishTime,String tiZhu){
+        try{
+            Connection conn= DBUtil2.getConnection();
+            String sql = "insert into  FLFG_INFO ( PAGE, LOWID, TITLE, PUBLISHDEPARTMENT, PUBLISHTIME ) " +
+                    "VALUES (?,?,?,?,?)";
+            PreparedStatement ps=conn.prepareStatement(sql);
+            ps.setInt(1, page);
+            ps.setInt(2,lowid);
+            ps.setString(3, title);
+            ps.setString(4, publishDepartment);
+            ps.setString(5, publishTime);
+            ps.setString(6, tiZhu);
+            ps.executeUpdate();
+            System.out.println("插入："+page+"，lowID："+lowid);
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            DBUtil2.closeConnection();
+        }
+    }
+
+    //清除插入失败的lowID等信息
+    public static void deleteLowid(Integer page){
+        try{
+            Connection conn= DBUtil2.getConnection();
+            String sql = "DELETE from FLFG_INFO where PAGE=?";
+            PreparedStatement ps=conn.prepareStatement(sql);
+            ps.setInt(1, page);
+            ps.executeUpdate();
+            System.out.println("删除："+page+"信息");
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            DBUtil2.closeConnection();
+        }
+    }
 }
