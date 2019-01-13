@@ -45,7 +45,7 @@ public class HandleData {
             }
             rs.close();
             state.close();
-            return list;
+            //return list;
         }catch(Exception e){
             e.printStackTrace();
         }finally{

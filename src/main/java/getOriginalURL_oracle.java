@@ -30,8 +30,9 @@ public class getOriginalURL_oracle {
         );
 
         pages=HandleData.getPages();
-        if(pages==null){
-            System.out.println("遍历完毕，请确认是否有文件在读写中");
+        if(pages.isEmpty()){
+            System.out.println("数据库中查不到需要下载的文件");
+            System.exit(0);
         }
     }
 
@@ -87,6 +88,7 @@ public class getOriginalURL_oracle {
             }else{
                 flag=false;
             }
+            //有没有必要？
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
