@@ -1,4 +1,4 @@
-package huanjingbaohuju;
+package gongshangxingzhengguanliju;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -16,13 +16,9 @@ public class GetURLList {
         String url;
         for(int i=1;i<=3;i++){
             if(i==1){
-                //广东省环保法规  从0开始
-//                url="http://www.gzepb.gov.cn/zwgk/fgybz/gdshbfg/";
-                //广州市环保法规
-                url="http://www.gzepb.gov.cn/zwgk/fgybz/gzshbfg/";
+                url="http://www.gzaic.gov.cn/gzaic/zcfg_dfxfg/common_list.shtml";
             }else {
-//                url="http://www.gzepb.gov.cn/zwgk/fgybz/gdshbfg/index_"+(i-1)+".htm";
-                url="http://www.gzepb.gov.cn/zwgk/fgybz/gzshbfg/index_"+(i-1)+".htm";
+                url="http://www.gzaic.gov.cn/gzaic/zcfg_dfxfg/common_list_"+i+".shtml";
             }
             workurl(url,i);
             System.out.println("下载完第"+i+"页");
@@ -30,10 +26,7 @@ public class GetURLList {
     }
 
     public static void workurl(String strurl,Integer page) throws Exception {
-        //广东省环保法规
-//        File file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保法规_page"+ File.separator+page+".html");
-        //广州市环保法规
-        File file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保法规_page"+ File.separator+page+".html");
+        File file = new File("C:\\Users\\张洲徽\\Desktop\\gongshangxingzhengguanliju_page"+ File.separator+page+".html");
         File parent = file.getParentFile();
 
         FileOutputStream fos=null;
@@ -45,6 +38,9 @@ public class GetURLList {
 
         InputStream is=null;
         BufferedReader br=null;
+
+        Thread t = Thread.currentThread();
+        String name = t.getName();
 
         try {
             //创建文件夹和文件，用于保存链接
@@ -60,7 +56,7 @@ public class GetURLList {
 
             //创建输出流
             fos= new FileOutputStream(file);
-            osw= new OutputStreamWriter(fos, "GB2312");
+            osw= new OutputStreamWriter(fos, "UTF-8");
             pw= new PrintWriter(osw);
 
             url=new URL(strurl);
@@ -75,12 +71,10 @@ public class GetURLList {
             if(conn==null){
                 throw new Exception("获取连接失败");
             }
-            //如果是服务器端禁止抓取,那么这个你可以通过设置User-Agent来欺骗服务器
-            conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
 
             //通过链接取得网页返回的数据
             is=conn.getInputStream();
-            br=new BufferedReader(new InputStreamReader(is,"GB2312"));
+            br=new BufferedReader(new InputStreamReader(is,"UTF-8"));
 
             //按行读取并打印
             String line = null;
@@ -98,7 +92,6 @@ public class GetURLList {
             br.close();
             pw.close();
             System.gc();
-            Thread.sleep(1000);
         }
     }
 }

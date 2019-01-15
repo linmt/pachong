@@ -1,9 +1,9 @@
+import huanjingbaohuju.DownloadHTML;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by 张洲徽 on 2019/1/8.
@@ -45,27 +45,27 @@ public class Test {
 //        }
 
         //测试src下创建数据库配置文件
-        try{
-            Connection conn=DBUtil2.getConnection();
-            conn.setAutoCommit(false);
-            String sql ="INSERT INTO flfg_pages VALUES(?,NULL,null )";
-            PreparedStatement ps= conn.prepareStatement(sql);
-            for(int i=1;i<=6570;i++){
-                ps.setInt(1, i);
-                ps.addBatch();
-                if(i%1000==0){
-                    ps.executeBatch();
-                    System.out.println("插入"+i);
-                }
-            }
-            ps.executeBatch();
-            System.out.println("插入剩余记录");
-            conn.commit();
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally{
-            DBUtil2.closeConnection();
-        }
+//        try{
+//            Connection conn=DBUtil2.getConnection();
+//            conn.setAutoCommit(false);
+//            String sql ="INSERT INTO flfg_pages VALUES(?,NULL,null )";
+//            PreparedStatement ps= conn.prepareStatement(sql);
+//            for(int i=1;i<=6570;i++){
+//                ps.setInt(1, i);
+//                ps.addBatch();
+//                if(i%1000==0){
+//                    ps.executeBatch();
+//                    System.out.println("插入"+i);
+//                }
+//            }
+//            ps.executeBatch();
+//            System.out.println("插入剩余记录");
+//            conn.commit();
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }finally{
+//            DBUtil2.closeConnection();
+//        }
 
         //测试List的取出
 //        List<Integer> list=new ArrayList<Integer>();
@@ -94,5 +94,9 @@ public class Test {
 //            System.out.println("找到page");
 //        }
 
+        //测试HTML文件是否utf-8编码
+        String path="C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保法规_page\\"+"1"+".html";
+        Document doc = Jsoup.parse(DownloadHTML.readHtml(path));
+        System.out.println(doc.text());
     }
 }

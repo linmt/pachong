@@ -11,14 +11,13 @@ import java.net.URL;
 
 /**
  * Created by 张洲徽 on 2019/1/14.
- * 乱码
  */
 public class DownloadHTML {
     //遍历page，获取URL
     //下载HTML
     public static void main(String[] args) throws IOException {
         //生成HTML的路径
-        for(int i=1;i<=6;i++){
+        for(int i=1;i<=3;i++){
             String msg=getLowidAndTitle(i);
             System.out.println("第"+i+"页，"+msg);
             System.out.println("");
@@ -28,36 +27,9 @@ public class DownloadHTML {
     }
 
     public static String getLowidAndTitle(Integer page) throws IOException {
-        //url网址作为输入源
-        Document doc = Jsoup.connect("http://www.example.com").timeout(60000).get();
-//File文件作为输入源
-        File input = new File("/tmp/input.html");
-        Document doc = Jsoup.parse(input, "UTF-8", "http://www.example.com/");
-//String作为输入源
-        Document doc = Jsoup.parse(htmlStr);
-
-
-
-        String path="C:\\Users\\张洲徽\\Desktop\\huanjingbaohuju_page\\"+page+".html";
-        //Document doc = Jsoup.parse(readHtml(path));
-        //Jsoup.parse(InputStream in, String charsetName, String baseUri)
-        Document document = Jsoup.parse(new URL(path).openStream(), "GB2312", url);
-        File file = new File("C:\\Users\\张洲徽\\Desktop\\a"+ File.separator+page+".html");
-        File parent = file.getParentFile();
-        //创建文件夹和文件，用于保存链接
-        if(!parent.exists()){
-            parent.mkdirs();
-        }
-        if(!file.exists()){
-            file.createNewFile();
-            System.out.println("文件创建完毕");
-        }else {
-            System.out.println("文件已经存在");
-        }
-
-        FileOutputStream fos=new FileOutputStream(file);
-        OutputStreamWriter osw=new OutputStreamWriter(fos, "GB2312");
-        PrintWriter pw=new PrintWriter(osw);
+//        String path="C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保法规_page\\"+page+".html";
+        String path="C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保法规_page\\"+page+".html";
+        Document doc = Jsoup.parse(readHtml(path));
 
         String msg=null;
         Elements elements = doc.select("table");
@@ -68,35 +40,44 @@ public class DownloadHTML {
                 Elements trElements =e.select("tr");
                 try {
                     for (Element ee : trElements) {
-                        count++;
-                        String text=ee.text();
-//                        byte[] bbs = text.getBytes();
-//                        text=new String(bbs, "GB2312");
-                        System.out.println(text);
+//                        String text=ee.text();
+//                        System.out.println(text);
 
-                        pw.println(text);
-                        pw.flush();
+                        if(!ee.text().equals("")&&ee.text()!=null){
+                            count++;
+                            //广东省环保法规  1-14PDF
+//                            if(!(page==1&&(count==14))){
+                            if(true){
+                                //http://www.gzepb.gov.cn/zwgk/fgybz/gdshbfg/201812/t20181228_91622.htm
+                                //./201812/t20181228_91622.htm
+                                String href=ee.select("a").attr("href");
+                                if(href.contains(".pdf")){
+                                    System.out.println(page+"-"+count+"PDF");
+                                }else {
+                                    //广东省环保法规
+//                                    String url=ee.select("a").attr("href").replace("./","http://www.gzepb.gov.cn/zwgk/fgybz/gdshbfg/");
+                                    //广州市环保法规
+                                    //http://www.gzepb.gov.cn/zwgk/fgybz/gzshbfg/201812/t20181221_91540.htm
+                                    String url=ee.select("a").attr("href").replace("./","http://www.gzepb.gov.cn/zwgk/fgybz/gzshbfg/");
+                                    String title=ee.select("a").text();
+//                            System.out.println(url);
+//                            System.out.println(title);
 
-                        //http://www.gzedu.gov.cn/gzsjyj/zcfg/201812/67ed9e57d21c4845b20c0598b7a0a0b9.shtml
-                        String url=ee.select("a").attr("href").replace("../../","http://www.gzedu.gov.cn/");
-                        String title=ee.select("a").text();
-                        //String time=e.select("span").text();
-                        //System.out.println(title+time);
-                        //下载HTML
-//                        workurl(url,page+"-"+count+title);
-                        System.out.println(count);
+                                    //下载HTML
+                                workurl(url,page+"-"+count,"");
+                                    System.out.println(count);
+                                }
+                            }
+                        }
                     }
                     msg="插入成功";
                 }catch (Exception e2){
                     msg="插入失败";
                     e2.getStackTrace();
-                }finally {
-                    return msg;
                 }
             }
         }
-
-        return "插入成功";
+        return msg;
     }
 
     //读html文件
@@ -105,7 +86,7 @@ public class DownloadHTML {
         StringBuffer sb = new StringBuffer();
         try {
             fis = new FileInputStream(fileName);
-            byte[] bytes = new byte[40960];
+            byte[] bytes = new byte[60000];
             while (-1 != fis.read(bytes)) {
                 sb.append(new String(bytes));
             }
@@ -123,8 +104,13 @@ public class DownloadHTML {
         return sb.toString();
     }
 
-    public static void workurl(String strurl,String title) throws Exception {
-        File file = new File("C:\\Users\\张洲徽\\Desktop\\huanjingbaohuju"+ File.separator+title+".html");
+    public static void workurl(String strurl,String prefix,String title) throws Exception {
+//        File file = new File(
+//                "C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保法规"
+//                        + File.separator+prefix+title+".html");
+        File file = new File(
+                "C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保法规"
+                        + File.separator+prefix+title+".html");
         File parent = file.getParentFile();
 
         FileOutputStream fos=null;
@@ -143,12 +129,20 @@ public class DownloadHTML {
                 parent.mkdirs();
             }
             if(!file.exists()){
-                file.createNewFile();
-                //System.out.println("文件创建完毕");
+                for(int i=3;i>0;i--){
+                    try{
+                        file.createNewFile();
+                        //System.out.println("文件创建完毕");
+                    }catch (IOException ie){
+//                        file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保法规"+ File.separator+prefix+".html");
+                        file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保法规"+ File.separator+prefix+".html");
+                        System.out.println("文件改名完毕");
+                    }
+                }
             }else {
                 System.out.println(title+"文件已经存在");
-                System.out.println("++++++++++++++++++++++++++++");
-//                file = new File("C:\\Users\\张洲徽\\Desktop\\jiaoyuju_page"+ File.separator+title+".html——已经存在");
+                System.out.println("++++++++++++++++++++++++++++++");
+//                file = new File("C:\\Users\\张洲徽\\Desktop\\huanjingbaohuju_page"+ File.separator+title+".html——已经存在");
 //                file.createNewFile();
             }
 
@@ -163,15 +157,28 @@ public class DownloadHTML {
                 try{
                     conn=(HttpURLConnection) url.openConnection();
                 }catch(Exception e){
+                    System.out.println("连接失败，尝试重连"+j);
+                    Thread.sleep(1000);
                     continue;
                 }
             }
             if(conn==null){
                 throw new Exception("获取连接失败");
             }
+            //如果是服务器端禁止抓取,那么这个你可以通过设置User-Agent来欺骗服务器
+            conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
 
-            //通过链接取得网页返回的数据
-            is=conn.getInputStream();
+            for(int j=0;j<3;j++){
+                try{
+                    //通过链接取得网页返回的数据
+                    is=conn.getInputStream();
+                }catch(Exception e){
+                    System.out.println("获取流失败，重试"+j);
+                    Thread.sleep(1000);
+                    continue;
+                }
+            }
+
             br=new BufferedReader(new InputStreamReader(is,"GB2312"));
 
             //按行读取并打印
