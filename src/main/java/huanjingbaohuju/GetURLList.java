@@ -14,15 +14,24 @@ public class GetURLList {
     //http://www.gzedu.gov.cn/gzsjyj/zcfg/list.shtml
     public static void main(String args[]) throws Exception {
         String url;
-        for(int i=1;i<=3;i++){
+        for(int i=1;i<=4;i++){
             if(i==1){
                 //广东省环保法规  从0开始
 //                url="http://www.gzepb.gov.cn/zwgk/fgybz/gdshbfg/";
                 //广州市环保法规
-                url="http://www.gzepb.gov.cn/zwgk/fgybz/gzshbfg/";
+//                url="http://www.gzepb.gov.cn/zwgk/fgybz/gzshbfg/";
+                //广东省环保政策文件
+//                url="http://www.gzepb.gov.cn/zwgk/fgybz/gdshbzcwj/";
+                //广州市环保政策文件
+//                url="http://www.gzepb.gov.cn/zwgk/fgybz/gzshbzcwj/";
+                //其它相关政策文件
+                url="http://www.gzepb.gov.cn/zwgk/fgybz/qtxgzcwj/";
             }else {
 //                url="http://www.gzepb.gov.cn/zwgk/fgybz/gdshbfg/index_"+(i-1)+".htm";
-                url="http://www.gzepb.gov.cn/zwgk/fgybz/gzshbfg/index_"+(i-1)+".htm";
+//                url="http://www.gzepb.gov.cn/zwgk/fgybz/gzshbfg/index_"+(i-1)+".htm";
+//                url="http://www.gzepb.gov.cn/zwgk/fgybz/gdshbzcwj/index_"+(i-1)+".htm";
+//                url="http://www.gzepb.gov.cn/zwgk/fgybz/gzshbzcwj/index_"+(i-1)+".htm";
+                url="http://www.gzepb.gov.cn/zwgk/fgybz/qtxgzcwj/index_"+(i-1)+".htm";
             }
             workurl(url,i);
             System.out.println("下载完第"+i+"页");
@@ -30,10 +39,11 @@ public class GetURLList {
     }
 
     public static void workurl(String strurl,Integer page) throws Exception {
-        //广东省环保法规
 //        File file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保法规_page"+ File.separator+page+".html");
-        //广州市环保法规
-        File file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保法规_page"+ File.separator+page+".html");
+//        File file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保法规_page"+ File.separator+page+".html");
+//        File file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保政策文件_page"+ File.separator+page+".html");
+//        File file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保政策文件_page"+ File.separator+page+".html");
+        File file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_其它相关政策文件_page"+ File.separator+page+".html");
         File parent = file.getParentFile();
 
         FileOutputStream fos=null;

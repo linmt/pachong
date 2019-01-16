@@ -17,7 +17,7 @@ public class DownloadHTML {
     //下载HTML
     public static void main(String[] args) throws IOException {
         //生成HTML的路径
-        for(int i=1;i<=3;i++){
+        for(int i=1;i<=4;i++){
             String msg=getLowidAndTitle(i);
             System.out.println("第"+i+"页，"+msg);
             System.out.println("");
@@ -28,7 +28,10 @@ public class DownloadHTML {
 
     public static String getLowidAndTitle(Integer page) throws IOException {
 //        String path="C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保法规_page\\"+page+".html";
-        String path="C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保法规_page\\"+page+".html";
+//        String path="C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保法规_page\\"+page+".html";
+//        String path="C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保政策文件_page\\"+page+".html";
+//        String path="C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保政策文件_page\\"+page+".html";
+        String path="C:\\Users\\张洲徽\\Desktop\\环境保护局_其它相关政策文件_page\\"+page+".html";
         Document doc = Jsoup.parse(readHtml(path));
 
         String msg=null;
@@ -45,9 +48,11 @@ public class DownloadHTML {
 
                         if(!ee.text().equals("")&&ee.text()!=null){
                             count++;
-                            //广东省环保法规  1-14PDF
+                            //广东省环保法规  1-14PDF   这个下面已经有判断，可以去掉
 //                            if(!(page==1&&(count==14))){
-                            if(true){
+//                            if(true){
+                            //其它相关政策文件  2-1链接失效
+                            if(!(page==2&&(count==1))){
                                 //http://www.gzepb.gov.cn/zwgk/fgybz/gdshbfg/201812/t20181228_91622.htm
                                 //./201812/t20181228_91622.htm
                                 String href=ee.select("a").attr("href");
@@ -58,7 +63,33 @@ public class DownloadHTML {
 //                                    String url=ee.select("a").attr("href").replace("./","http://www.gzepb.gov.cn/zwgk/fgybz/gdshbfg/");
                                     //广州市环保法规
                                     //http://www.gzepb.gov.cn/zwgk/fgybz/gzshbfg/201812/t20181221_91540.htm
-                                    String url=ee.select("a").attr("href").replace("./","http://www.gzepb.gov.cn/zwgk/fgybz/gzshbfg/");
+                                    //广东省环保政策文件
+                                    //http://www.gzepb.gov.cn/zwgk/fgybz/gdshbzcwj/201812/t20181221_91533.htm
+
+                                    //适用于以上三个网址
+//                                    String url=ee.select("a").attr("href").replace("./","http://www.gzepb.gov.cn/ggqstz/");
+
+                                    //广州市环保政策文件
+                                    //http://www.gzepb.gov.cn/ggqstz/201812/t20181229_91669.htm
+                                    //../../../ggqstz/201812/t20181229_91669.htm
+                                    //http://www.gzepb.gov.cn/zwgk/fgybz/gzshbzcwj/201809/t20180910_90376.htm
+                                    // ./201809/t20180910_90376.htm
+
+                                    //其它相关政策文件
+                                    //../../../ggqstz/201807/t20180703_89346.htm
+                                    //http://www.gzepb.gov.cn/ggqstz/201807/t20180703_89346.htm
+                                    //./201710/t20171031_76993.htm
+                                    //http://www.gzepb.gov.cn/zwgk/fgybz/qtxgzcwj/201710/t20171031_76993.htm
+                                    String url=ee.select("a").attr("href");
+                                    if(url.contains("../../../")) {
+                                        url = url.replace("../../../", "http://www.gzepb.gov.cn/");
+                                    }else if(url.contains("./")) {
+                                        url = url.replace("./", "http://www.gzepb.gov.cn/zwgk/fgybz/qtxgzcwj/");
+                                    }else if(url.contains("http:")){
+                                        url = url;
+                                    }else {
+                                        throw new Exception("url格式有问题");
+                                    }
                                     String title=ee.select("a").text();
 //                            System.out.println(url);
 //                            System.out.println(title);
@@ -108,8 +139,17 @@ public class DownloadHTML {
 //        File file = new File(
 //                "C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保法规"
 //                        + File.separator+prefix+title+".html");
+//        File file = new File(
+//                "C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保法规"
+//                        + File.separator+prefix+title+".html");
+//        File file = new File(
+//                "C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保政策文件"
+//                        + File.separator+prefix+title+".html");
+//        File file = new File(
+//                "C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保政策文件"
+//                        + File.separator+prefix+title+".html");
         File file = new File(
-                "C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保法规"
+                "C:\\Users\\张洲徽\\Desktop\\环境保护局_其它相关政策文件"
                         + File.separator+prefix+title+".html");
         File parent = file.getParentFile();
 
@@ -135,7 +175,10 @@ public class DownloadHTML {
                         //System.out.println("文件创建完毕");
                     }catch (IOException ie){
 //                        file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保法规"+ File.separator+prefix+".html");
-                        file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保法规"+ File.separator+prefix+".html");
+//                        file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保法规"+ File.separator+prefix+".html");
+//                        file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广东省环保政策文件"+ File.separator+prefix+".html");
+//                        file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_广州市环保政策文件"+ File.separator+prefix+".html");
+                        file = new File("C:\\Users\\张洲徽\\Desktop\\环境保护局_其它相关政策文件"+ File.separator+prefix+".html");
                         System.out.println("文件改名完毕");
                     }
                 }
@@ -168,7 +211,7 @@ public class DownloadHTML {
             //如果是服务器端禁止抓取,那么这个你可以通过设置User-Agent来欺骗服务器
             conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
 
-            for(int j=0;j<3;j++){
+            for(int j=1;j<=3;j++){
                 try{
                     //通过链接取得网页返回的数据
                     is=conn.getInputStream();
